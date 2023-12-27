@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 4884587785684645079}
   - component: {fileID: 8725236379797704768}
   - component: {fileID: 6393981352370039973}
+  - component: {fileID: 1149673453983071959}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy
@@ -709,6 +710,7 @@ MonoBehaviour:
   hitCollider: {fileID: 354098538771774993}
   enemyAnim: {fileID: 8742606563502019371}
   enemyCollider: {fileID: 2711636906260511856}
+  rb: {fileID: 1149673453983071959}
 --- !u!114 &8742606563502019371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,9 +762,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.23
-  m_Height: 1
+  m_Height: 0.7
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.33, z: 0}
 --- !u!114 &6393981352370039973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,6 +783,33 @@ MonoBehaviour:
   health: 0
   enemyCount: 0
   isLive: 1
+--- !u!54 &1149673453983071959
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419183197015024105}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0
 --- !u!1 &3464725227350714403
 GameObject:
   m_ObjectHideFlags: 0

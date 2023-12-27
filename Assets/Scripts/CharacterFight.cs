@@ -8,30 +8,35 @@ using static ToonyColorsPro.ShaderGenerator.Enums;
 public class CharacterFight : MonoBehaviour
 {
     [SerializeField] CharacterManager characterManager;
+    [SerializeField] GameObject _target;
     bool isHit = false, isInner = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && other.gameObject.activeInHierarchy && !isInner)
+        if (other.CompareTag("Enemy") && _target == null)
         {
-            isInner = true;
-            StartCoroutine(HitTime(other));
+            _target = other.gameObject;
+            EnemyManager enemyManager = other.GetComponent<EnemyManager>();
+            if (enemyManager.GetEnemyHealth() > 0)
+            {
+                isInner = true;
+                StartCoroutine(HitTime(enemyManager));
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy"))
-        { isInner = false; }
+        if (other.CompareTag("Enemy")) if (_target == other.gameObject) { isInner = false; }
     }
+
     public bool GetIsHit() { return isHit; }
 
-    IEnumerator HitTime(Collider other)
+    IEnumerator HitTime(EnemyManager enemyManager)
     {
-        while (isInner && other.gameObject.activeInHierarchy)
+        while (isInner && enemyManager.GetEnemyHealth() > 0 && _target != null)
         {
-            if (!isHit && other.gameObject.activeInHierarchy)
+            if (!isHit && enemyManager.GetEnemyHealth() > 0 && _target != null)
             {
                 isHit = true;
-                EnemyManager enemyManager = other.GetComponent<EnemyManager>();
                 enemyManager.DownEnemyHeallth(ItemData.Instance.field.characterAttack);
                 characterManager.GetAnimController().CallHitAnim();
                 yield return new WaitForSeconds(ItemData.Instance.field.characterHitTime);
