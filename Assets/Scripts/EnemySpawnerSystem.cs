@@ -16,8 +16,9 @@ public class EnemySpawnerSystem : MonoBehaviour
 
     void Update()
     {
-        if (enemySpawnerCount <= EnemySpawnerManager.Instance.GetSpawnerEnemyCount())
+        if (enemySpawnerCount < EnemySpawnerManager.Instance.GetSpawnerEnemyCount())
         {
+            enemySpawnerCount++;
             StartCoroutine(SpawnerAgainStart());
         }
     }
@@ -43,7 +44,9 @@ public class EnemySpawnerSystem : MonoBehaviour
 
         for (int i = 0; i < EnemySpawnerManager.Instance.GetSpawnerEnemyCount(); i++)
             if (!enemySpawnBool[i])
+            {
                 EnemyAgainStartSpawn(i);
+            }
     }
 
     void StartSpawner()
@@ -57,6 +60,7 @@ public class EnemySpawnerSystem : MonoBehaviour
         GameObject tempObject = ObjectPool.Instance.GetPooledObject(EnemySpawnerManager.Instance.GetSpawnerEnemyCountOP(), enemySpawnPlace[enemyCount].transform.position);
         enemyObjects.Add(tempObject);
         enemySpawnBool.Add(true);
+        enemySpawnerCount++;
         tempObject.GetComponent<EnemyManager>().SetEnemySpawnerSystem(this);
     }
 
@@ -64,7 +68,7 @@ public class EnemySpawnerSystem : MonoBehaviour
     {
         GameObject tempObject = ObjectPool.Instance.GetPooledObject(EnemySpawnerManager.Instance.GetSpawnerEnemyCountOP(), enemySpawnPlace[enemyCount].transform.position);
         enemyObjects[enemyCount] = tempObject;
-        enemySpawnBool[enemyCount] = true; ;
+        enemySpawnBool[enemyCount] = true;
         tempObject.GetComponent<EnemyManager>().SetEnemySpawnerSystem(this);
     }
 

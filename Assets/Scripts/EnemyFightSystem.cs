@@ -13,10 +13,16 @@ public class EnemyFightSystem : MonoBehaviour
     [SerializeField] EnemyAnim enemyAnim;
     [SerializeField] EnemyCollider enemyCollider;
     [SerializeField] Rigidbody rb;
+    Transform target;
     private void OnEnable()
     {
         isHit = false;
         isWalk = false;
+    }
+    private void Start()
+    {
+        target = CharacterManager.Instance.GetCharacter().transform;
+
     }
 
     private void Update()
@@ -28,17 +34,26 @@ public class EnemyFightSystem : MonoBehaviour
                 isHit = true;
                 StartCoroutine(AttackCharacter());
             }
-            else if (Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) < EnemyFightManager.Instance.GetMinViewDistance() && Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) > EnemyFightManager.Instance.GetMinHitDistance() && !isWalk && !isHit)
+            else if (Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) < EnemyFightManager.Instance.GetMinViewDistance() && Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) > EnemyFightManager.Instance.GetMinHitDistance() && !isHit)
             {
                 isWalk = true;
                 enemyAnim.CallRunAnim();
-                StartCoroutine(StartWalking());
             }
             else if (!isHit)
             {
                 isWalk = false;
                 enemyAnim.CallIdleAnim();
             }
+
+
+        if (GameManager.Instance.gameStat == GameManager.GameStat.start && isWalk && enemyManager.GetIsLive())
+        {
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            transform.LookAt(target.position);
+            rb.velocity = directionToTarget * EnemyFightManager.Instance.GetWalkSpeed();
+        }
+        else
+            rb.velocity = Vector3.zero;
     }
 
     public EnemyAnim GetEnemyAnim() { return enemyAnim; }
@@ -55,17 +70,5 @@ public class EnemyFightSystem : MonoBehaviour
             hitCollider.gameObject.SetActive(false);
         if (enemyManager.GetIsLive())
             isHit = false;
-    }
-    IEnumerator StartWalking()
-    {
-        while (isWalk && enemyManager.GetIsLive())
-        {
-            transform.LookAt(CharacterManager.Instance.GetCharacter().transform.position);
-            Vector3 way = Vector3.Normalize(transform.position - CharacterManager.Instance.GetCharacter().transform.position) * EnemyFightManager.Instance.GetWalkSpeed();
-            way = new Vector3(way.x, 0, way.z);
-            rb.velocity = way;
-            yield return null;
-        }
-        yield return null;
     }
 }

@@ -5,31 +5,35 @@ using Animancer;
 
 public class EnemyAnim : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent character;
-    [SerializeField] private AnimationClip run, hit, idle, death;
+    [SerializeField] private Animator character;
+    private string run = "Run", hit = "Hit", idle = "Idle", death = "Death";
 
     public void CallIdleAnim()
     {
-        ResetAnim();
-        character.Play(idle, 0.1f);
+        character.SetBool(run, false);
+        character.SetBool(death, false);
+        character.SetBool(hit, false);
+        character.SetBool(idle, true);
     }
     public void CallHitAnim()
     {
-        ResetAnim();
-        character.Play(hit, 0.1f);
+        character.SetBool(run, false);
+        character.SetBool(death, false);
+        character.SetBool(idle, false);
+        character.SetBool(hit, true);
     }
     public void CallRunAnim()
     {
-        ResetAnim();
-        character.Play(run, 0.1f);
+        character.SetBool(idle, false);
+        character.SetBool(death, false);
+        character.SetBool(hit, false);
+        character.SetBool(run, true);
     }
     public void CallDeathAnim()
     {
-        ResetAnim();
-        character.Play(death, 0.1f);
-    }
-
-    private void ResetAnim()
-    {
+        character.SetBool(run, false);
+        character.SetBool(idle, false);
+        character.SetBool(hit, false);
+        character.SetBool(death, true);
     }
 }

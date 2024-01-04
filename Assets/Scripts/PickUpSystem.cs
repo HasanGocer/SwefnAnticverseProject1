@@ -8,7 +8,7 @@ public class PickUpSystem : MonoBehaviour
     [SerializeField] private int tagCount;
     [SerializeField] private int itemCount;
     [SerializeField] List<GameObject> Levels = new List<GameObject>();
-    bool hitTime = false;
+    bool hitTime = false, systemReset = false;
 
     private void OnEnable()
     {
@@ -26,7 +26,14 @@ public class PickUpSystem : MonoBehaviour
     {
         hitTime = false;
         JoystickInput.Instance.SetAnimStat(JoystickInput.AnimStat.idle);
-        if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) StartCoroutine(ItemReloadIenum());
+    }
+    private void Update()
+    {
+        if (hitTime)
+            if (itemCount == 0)
+            {
+                JoystickInput.Instance.SetAnimStat(JoystickInput.AnimStat.idle);
+            }
     }
     public void ColliderTouchStop()
     {
@@ -39,8 +46,11 @@ public class PickUpSystem : MonoBehaviour
 
     IEnumerator ItemReloadIenum()
     {
+        systemReset = true;
         yield return new WaitForSeconds(ItemManager.Instance.GetItemReloadTime(tagCount));
         itemCount = ItemManager.Instance.GetItemCount(tagCount);
+        ChangeItemAppearance();
+        systemReset = false;
     }
     IEnumerator HitTime()
     {
@@ -49,8 +59,12 @@ public class PickUpSystem : MonoBehaviour
             yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
             TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
             itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
-            ChangeItemAppearance();
-            StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject));
+            if (hitTime)
+            {
+                ChangeItemAppearance();
+                StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject));
+                if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
+            }
         }
         yield return null;
     }
