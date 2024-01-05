@@ -55,10 +55,14 @@ public class GameManager : MonoSingleton<GameManager>
             PlayerPrefs.SetInt("sound", sound);
 
         if (PlayerPrefs.HasKey("first"))
+        {
+            ItemManager.Instance.StartWrite(ItemsPlacementRead());
             ItemData.Instance.factor = FactorPlacementRead();
+        }
         else
         {
             PlayerPrefs.SetInt("first", 1);
+            ItemManager.Instance.StartWrite(ItemManager.Instance.GetItemDatas());
             FactorPlacementWrite(ItemData.Instance.factor);
         }
     }
@@ -68,7 +72,19 @@ public class GameManager : MonoSingleton<GameManager>
         string jsonData = JsonUtility.ToJson(factor);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/FactorData.json", jsonData);
     }
+    public void ItemsPlacementWrite(ItemManager.ItemDatas items)
+    {
+        string jsonData = JsonUtility.ToJson(items);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/ItemData.json", jsonData);
+    }
 
+    public ItemManager.ItemDatas ItemsPlacementRead()
+    {
+        string jsonRead = System.IO.File.ReadAllText(Application.persistentDataPath + "/ItemData.json");
+        ItemManager.ItemDatas items = new ItemManager.ItemDatas();
+        items = JsonUtility.FromJson<ItemManager.ItemDatas>(jsonRead);
+        return items;
+    }
     public ItemData.Field FactorPlacementRead()
     {
         string jsonRead = System.IO.File.ReadAllText(Application.persistentDataPath + "/FactorData.json");
