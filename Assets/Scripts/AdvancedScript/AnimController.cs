@@ -50,7 +50,7 @@ public class AnimController : MonoBehaviour
     }
     public bool GetHitAnimBool()
     {
-        return runBool;
+        return hitBool;
     }
 
     public void SetRunBool(bool tempBool)
