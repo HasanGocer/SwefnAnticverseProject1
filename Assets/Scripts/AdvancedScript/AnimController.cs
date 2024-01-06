@@ -9,20 +9,26 @@ public class AnimController : MonoBehaviour
     private string run = "Run", hit = "Hit", idle = "Idle", death = "Death", hitWithRun = "HitWithRun";
 
 
-    public void CallIdleAnim()
-    {
-        BoolOff();
-        idleBool = true;
-        AnimOn(idle);
-        AnimOff(death, hit, run);
-    }
+    /* public void CallIdleAnim()
+     {
+         BoolOff();
+         idleBool = true;
+         AnimOn(idle);
+         AnimOff(death, hit, run);
+     }*/
     public void CallHitAnim()
     {
+        print(2);
         hitBool = true;
         if (PerformDualAction())
+        {
+            print(3);
             HitWithRunAnim();
+            print(4);
+        }
         else
         {
+            print(5);
             AnimOn(hit);
             BoolSelectedOff();
             AnimOff(death, idle, run);

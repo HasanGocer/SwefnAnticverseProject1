@@ -19,21 +19,18 @@ public class PickUpSystem : MonoBehaviour
     private void _ColliderTouchStart()
     {
         hitTime = true;
-        JoystickInput.Instance.SetAnimStat(JoystickInput.AnimStat.hit);
         StartCoroutine(HitTime());
     }
     private void _ColliderTouchStop()
     {
         hitTime = false;
-        JoystickInput.Instance.SetAnimStat(JoystickInput.AnimStat.idle);
+        //CharacterManager.Instance.GetAnimController().CallIdleAnim();
     }
     private void Update()
     {
-        if (hitTime)
+        /*if (hitTime)
             if (itemCount == 0)
-            {
-                JoystickInput.Instance.SetAnimStat(JoystickInput.AnimStat.idle);
-            }
+                CharacterManager.Instance.GetAnimController().CallIdleAnim();*/
     }
     public void ColliderTouchStop()
     {
@@ -56,6 +53,8 @@ public class PickUpSystem : MonoBehaviour
     {
         while (hitTime && itemCount > 0)
         {
+            print(1);
+            CharacterManager.Instance.GetAnimController().CallHitAnim();
             yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
             TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
             itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);

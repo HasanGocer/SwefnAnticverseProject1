@@ -14,6 +14,7 @@ public class ItemManager : MonoSingleton<ItemManager>
     }
 
     [SerializeField] private List<TMP_Text> itemTextCount = new List<TMP_Text>();
+    [SerializeField] TMP_Text coinTextCount;
 
     [SerializeField] private ItemDatas items;
 
@@ -29,10 +30,20 @@ public class ItemManager : MonoSingleton<ItemManager>
     {
         return items;
     }
+    public void ItemCountTextPlacement()
+    {
+        for (int i = 0; i < itemTextCount.Count; i++)
+            itemTextCount[i].text = items.itemUICount[i].ToString();
+    }
     public void UPItemUICount(int tagCount, int itemCount)
     {
         items.itemUICount[tagCount] += itemCount;
         itemTextCount[tagCount].text = items.itemUICount[tagCount].ToString();
+    }
+    public void UpCoinUICount(int itemCount)
+    {
+        GameManager.Instance.money += itemCount;
+        coinTextCount.text = GameManager.Instance.money.ToString();
     }
     public void ReWriteItemCount()
     {

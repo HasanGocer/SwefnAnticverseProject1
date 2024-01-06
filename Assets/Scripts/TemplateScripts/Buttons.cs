@@ -67,6 +67,7 @@ public class Buttons : MonoSingleton<Buttons>
         startPanel.SetActive(true);
 
         CharacterManager.Instance.StartCharacterManager();
+        ItemManager.Instance.ItemCountTextPlacement();
     }
     public IEnumerator NoThanxOnActive()
     {

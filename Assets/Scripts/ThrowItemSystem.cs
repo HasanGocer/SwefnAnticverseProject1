@@ -31,7 +31,10 @@ public class ThrowItemSystem : MonoSingleton<ThrowItemSystem>
         {
             GameObject obj = tempItems[i];
             MoveMechanics.Instance.MoveLerp(obj, finishPositionItem, finishMoveSpeed, ref tempIsMove, () => { ObjectPool.Instance.AddObject(tagCount + itemMainOPCount, obj); });
-            ItemManager.Instance.UPItemUICount(tagCount, 1);
+            if (tagCount != EnemyFightManager.Instance.GetDeathThrowCoinOP())
+                ItemManager.Instance.UPItemUICount(tagCount, 1);
+            else
+                ItemManager.Instance.UpCoinUICount(1);
         }
 
         ItemManager.Instance.ReWriteItemCount();
