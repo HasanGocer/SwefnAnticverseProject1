@@ -1201,7 +1201,7 @@ MonoBehaviour:
     - 0.1
     itemHitCount: 01000000
     characterHealth: 10
-    characterAttack: 20
+    characterAttack: 1
     characterHitTime: 0.2
   maxFactor:
     HitTime:
@@ -5015,7 +5015,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagCount: 0
   itemCount: 0
-  animController: {fileID: 3105744096695795301}
   Levels:
   - {fileID: 2089881244}
   - {fileID: 702560073}
@@ -6262,6 +6261,7 @@ GameObject:
   - component: {fileID: 1683754811}
   - component: {fileID: 1683754812}
   - component: {fileID: 1683754813}
+  - component: {fileID: 1683754814}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -6320,6 +6320,19 @@ MonoBehaviour:
   spawnerEnemyCount: 1
   spawnerEnemyCountDown: 10
   spawnerEnemyCountOP: 2
+--- !u!114 &1683754814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683754810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a118de4b88104439b06a79ef803a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barSpeed: 2
 --- !u!1 &1698169138
 GameObject:
   m_ObjectHideFlags: 0
@@ -9992,7 +10005,6 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 5
   joystick: {fileID: 1120240869}
-  animController: {fileID: 3105744096695795301}
   rb: {fileID: 3105744096695795298}
 --- !u!114 &3105744096695795304
 MonoBehaviour:

@@ -8,6 +8,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] EnemyFightSystem enemyFightSystem;
     [SerializeField] EnemyManager enemyManager;
     [SerializeField] EnemySpawnerSystem enemySpawnerSystem;
+    [SerializeField] EnemyBar enemyBar;
     [SerializeField] int health;
     [SerializeField] int enemyCount;
     [SerializeField] bool isLive = true;
