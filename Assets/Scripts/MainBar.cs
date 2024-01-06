@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyBar : MonoBehaviour
+public class MainBar : MonoBehaviour
 {
     [SerializeField] Image barImage;
-    [SerializeField] EnemyManager enemyManager;
 
-    private void Update()
+    void Update()
     {
         UpdateHealthBar();
         barImage.transform.parent.transform.LookAt(EnemyBarManager.Instance.GetCamera().transform);
@@ -16,7 +15,7 @@ public class EnemyBar : MonoBehaviour
 
     void UpdateHealthBar()
     {
-        float targetFillAmount = (float)enemyManager.GetEnemyHealth() / (float)EnemyFightManager.Instance.GetEnemyHealth(enemyManager.GetEnemyCount());
+        float targetFillAmount = (float)CharacterManager.Instance.GetCharacterHealth() / (float)ItemData.Instance.field.characterHealth;
         barImage.fillAmount = Mathf.Lerp(barImage.fillAmount, targetFillAmount, Time.deltaTime * EnemyBarManager.Instance.GetBarFloat());
     }
 }
