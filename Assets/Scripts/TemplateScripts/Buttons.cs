@@ -68,6 +68,7 @@ public class Buttons : MonoSingleton<Buttons>
 
         CharacterManager.Instance.StartCharacterManager();
         ItemManager.Instance.ItemCountTextPlacement();
+        SoundSystem.Instance.MainMusicPlay();
     }
     public IEnumerator NoThanxOnActive()
     {
