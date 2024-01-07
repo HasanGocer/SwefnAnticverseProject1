@@ -12,10 +12,6 @@ public class AnimController : MonoBehaviour
     {
         AnimOn(idle);
     }
-    private void Update()
-    {
-        GetHG();
-    }
 
     public void CallIdleAnim()
     {

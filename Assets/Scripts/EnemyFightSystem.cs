@@ -75,16 +75,19 @@ public class EnemyFightSystem : MonoBehaviour
     private IEnumerator WalkToCharacter()
     {
         isWalk = true;
+
         while (Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) > EnemyFightManager.Instance.GetMinHitDistance() && Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) < EnemyFightManager.Instance.GetMinViewDistance() && enemyManager.GetIsLive())
         {
             Vector3 directionToTarget = (target.position - transform.position).normalized;
             transform.LookAt(target.position);
-            rb.velocity = directionToTarget * EnemyFightManager.Instance.GetWalkSpeed();
+            Vector3 newPosition = transform.position + directionToTarget * EnemyFightManager.Instance.GetWalkSpeed() * Time.deltaTime;
+            rb.MovePosition(newPosition);
 
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
 
         isWalk = false;
         rb.velocity = Vector3.zero;
     }
+
 }
