@@ -19,7 +19,6 @@ public class JoystickInput : MonoSingleton<JoystickInput>
             joystick.gameObject.SetActive(true);
         if (GameManager.Instance.gameStat == GameManager.GameStat.start && movement.magnitude >= 0.1f)
         {
-            print(31);
             CharacterManager.Instance.GetAnimController().CallRunAnim();
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, 0.1f);
@@ -28,7 +27,6 @@ public class JoystickInput : MonoSingleton<JoystickInput>
         }
         else if (GameManager.Instance.gameStat == GameManager.GameStat.start)
         {
-            print(32);
             if (!isIdle)
                 if (CharacterManager.Instance.GetAnimController().GetHitAnimBool())
                     CharacterManager.Instance.GetAnimController().SetRunBool(false);
@@ -40,10 +38,5 @@ public class JoystickInput : MonoSingleton<JoystickInput>
 
 
         transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
-    }
-
-    public void SetIsIdle(bool tempIsIdle)
-    {
-        isIdle = tempIsIdle;
     }
 }

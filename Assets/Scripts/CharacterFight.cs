@@ -8,63 +8,52 @@ using static ToonyColorsPro.ShaderGenerator.Enums;
 public class CharacterFight : MonoBehaviour
 {
     [SerializeField] CharacterManager characterManager;
-    [SerializeField] GameObject _target = null;
-    bool isHit = false, isInner = false, isOneHit = false;
-    float _hitTimer = 0;
-    EnemyManager enemyManager;
+    [SerializeField] Collider hitCollider;
+    bool isHit = false;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && _target == null)
-        {
-            _target = other.gameObject;
-            enemyManager = other.GetComponent<EnemyManager>();
-            if (enemyManager.GetEnemyHealth() > 0) isInner = true;
-        }
-
+        if (!isHit)
+            if (other.CompareTag("Enemy"))
+                if (other.GetComponent<EnemyManager>().GetEnemyHealth() > 0)
+                {
+                    isHit = true;
+                    StartCoroutine(Hit());
+                }
     }
-    private void OnTriggerExit(Collider other)
+
+    public void SetHitBool(bool tempBool)
     {
-        if (other.CompareTag("Enemy")) if (_target == other.gameObject) { isInner = false; _target = null; isOneHit = true; }
+        isHit = tempBool;
     }
-
-    private void Update()
-    {
-        if (!isHit && isInner && _target != null)
-            if (enemyManager.GetEnemyHealth() > 0)
-            {
-                isHit = true;
-                characterManager.GetAnimController().CallHitAnim();
-                _hitTimer = ItemData.Instance.field.characterHitTime;
-            }
-        if (_target != null)
-            if (enemyManager.GetEnemyHealth() <= 0)
-            {
-                characterManager.GetAnimController().SetHitBool(false);
-                JoystickInput.Instance.SetIsIdle(false);
-                _target = null;
-                isInner = false;
-                enemyManager = null;
-            }
-        if (isOneHit)
-        {
-            isOneHit = false;
-            characterManager.GetAnimController().SetHitBool(false);
-            JoystickInput.Instance.SetIsIdle(false);
-            enemyManager = null;
-        }
-        if (isHit)
-        {
-            _hitTimer -= Time.deltaTime;
-            if (_hitTimer <= 0f && enemyManager != null)
-            {
-                enemyManager.DownEnemyHeallth(ItemData.Instance.field.characterAttack);
-                isHit = false;
-            }
-            else if (_hitTimer <= 0f)
-                isHit = false;
-        }
-    }
-
     public bool GetIsHit() { return isHit; }
+
+    public IEnumerator Hit()
+    {
+        if (LiveCheck())
+            characterManager.GetAnimController().CallHitAnim();
+        yield return new WaitForSeconds(1);
+        if (LiveCheck())
+            hitCollider.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        if (LiveCheck())
+            hitCollider.gameObject.SetActive(true);
+        yield return new WaitForSeconds(ItemData.Instance.field.characterHitTime - 0.9f);
+        if (LiveCheck())
+            isHit = false;
+        if (LiveCheck())
+            if (CharacterManager.Instance.GetAnimController().GetRunAnimBool())
+                CharacterManager.Instance.GetAnimController().SetHitBool(false);
+            else
+                characterManager.GetAnimController().CallIdleAnim();
+        if (LiveCheck())
+            hitCollider.gameObject.SetActive(false);
+    }
+
+    private bool LiveCheck()
+    {
+        if (characterManager.GetCharacterHealth() > 0) return true;
+        else return false;
+    }
 
 }

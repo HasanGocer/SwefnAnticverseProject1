@@ -56,6 +56,10 @@ public class AnimController : MonoBehaviour
     {
         return hitBool;
     }
+    public bool GetRunAnimBool()
+    {
+        return runBool;
+    }
 
     public void SetRunBool(bool tempBool)
     {
