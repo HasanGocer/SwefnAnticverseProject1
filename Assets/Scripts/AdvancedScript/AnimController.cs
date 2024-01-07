@@ -32,10 +32,6 @@ public class AnimController : MonoBehaviour
             AnimOff(death, idle, run);
         }
     }
-    public void GetHG()
-    {
-        print(character.GetBool(hitWithRun));
-    }
     public void CallRunAnim()
     {
         runBool = true;
