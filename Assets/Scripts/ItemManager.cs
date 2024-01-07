@@ -43,6 +43,7 @@ public class ItemManager : MonoSingleton<ItemManager>
     public void UpCoinUICount(int itemCount)
     {
         GameManager.Instance.money += itemCount;
+        GameManager.Instance.SetMoney();
         coinTextCount.text = GameManager.Instance.money.ToString();
     }
     public void ReWriteItemCount()

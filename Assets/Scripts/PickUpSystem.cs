@@ -24,13 +24,13 @@ public class PickUpSystem : MonoBehaviour
     private void _ColliderTouchStop()
     {
         hitTime = false;
-        //CharacterManager.Instance.GetAnimController().CallIdleAnim();
+        CharacterManager.Instance.GetAnimController().CallIdleAnim();
     }
     private void Update()
     {
-        /*if (hitTime)
+        if (hitTime)
             if (itemCount == 0)
-                CharacterManager.Instance.GetAnimController().CallIdleAnim();*/
+                CharacterManager.Instance.GetAnimController().CallIdleAnim();
     }
     public void ColliderTouchStop()
     {
@@ -53,7 +53,6 @@ public class PickUpSystem : MonoBehaviour
     {
         while (hitTime && itemCount > 0)
         {
-            print(1);
             CharacterManager.Instance.GetAnimController().CallHitAnim();
             yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
             TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);

@@ -6479,7 +6479,7 @@ MonoBehaviour:
   enemyAttackCountDown: 02000000
   minViewDistance: 10
   minHitDistance: 1
-  walkSpeed: 10000
+  walkSpeed: 20000
   deathTime: 2
   deathThrowCoinOP: 1
   deathThrowCoinWaitTime: 0.8

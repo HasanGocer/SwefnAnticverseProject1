@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class JoystickInput : MonoSingleton<JoystickInput>
 {
-    public enum AnimStat
-    {
-        idle,
-        run,
-        hit
-    }
-
     public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
     [SerializeField] DynamicJoystick joystick;
@@ -37,8 +30,8 @@ public class JoystickInput : MonoSingleton<JoystickInput>
             if (!isIdle)
                 if (CharacterManager.Instance.GetAnimController().GetHitAnimBool())
                     CharacterManager.Instance.GetAnimController().SetRunBool(false);
-               /* else
-                    CharacterManager.Instance.GetAnimController().CallIdleAnim();*/
+                else
+                    CharacterManager.Instance.GetAnimController().CallIdleAnim();
             isIdle = true;
             rb.velocity = Vector3.zero;
         }

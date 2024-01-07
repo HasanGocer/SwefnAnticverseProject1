@@ -9,7 +9,7 @@ public class CharacterFight : MonoBehaviour
 {
     [SerializeField] CharacterManager characterManager;
     [SerializeField] GameObject _target = null;
-    bool isHit = false, isInner = false;
+    bool isHit = false, isInner = false, isOneHit = false;
     float _hitTimer = 0;
     EnemyManager enemyManager;
     private void OnTriggerEnter(Collider other)
@@ -24,7 +24,7 @@ public class CharacterFight : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy")) if (_target == other.gameObject) { isInner = false; }
+        if (other.CompareTag("Enemy")) if (_target == other.gameObject) { isInner = false; _target = null; isOneHit = true; }
     }
 
     private void Update()
@@ -45,11 +45,11 @@ public class CharacterFight : MonoBehaviour
                 isInner = false;
                 enemyManager = null;
             }
-        if (!isInner)
+        if (isOneHit)
         {
+            isOneHit = false;
             characterManager.GetAnimController().SetHitBool(false);
             JoystickInput.Instance.SetIsIdle(false);
-            _target = null;
             enemyManager = null;
         }
         if (isHit)

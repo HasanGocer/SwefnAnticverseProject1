@@ -38,6 +38,7 @@ public class EnemyFightSystem : MonoBehaviour
             {
                 isWalk = true;
                 enemyAnim.CallRunAnim();
+                StartCoroutine(WalkToCharacter());
             }
             else if (!isHit)
             {
@@ -70,5 +71,20 @@ public class EnemyFightSystem : MonoBehaviour
             hitCollider.gameObject.SetActive(false);
         if (enemyManager.GetIsLive())
             isHit = false;
+    }
+    private IEnumerator WalkToCharacter()
+    {
+        isWalk = true;
+        while (Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) > EnemyFightManager.Instance.GetMinHitDistance() && Vector3.Distance(CharacterManager.Instance.GetCharacter().transform.position, transform.position) < EnemyFightManager.Instance.GetMinViewDistance() && enemyManager.GetIsLive())
+        {
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            transform.LookAt(target.position);
+            rb.velocity = directionToTarget * EnemyFightManager.Instance.GetWalkSpeed();
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        isWalk = false;
+        rb.velocity = Vector3.zero;
     }
 }
