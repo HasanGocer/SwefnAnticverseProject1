@@ -28,7 +28,7 @@ public class Buttons : MonoSingleton<Buttons>
 
     [SerializeField] private Sprite _red, _green;
     [SerializeField] private Button _settingBackButton;
-    [SerializeField] private Button _soundButton, _vibrationButton;
+    [SerializeField] private Button _vibrationButton;
 
     [Header("Finish_Panel")]
     [Space(10)]
@@ -86,19 +86,7 @@ public class Buttons : MonoSingleton<Buttons>
     {
         SoundSystem soundSystem = SoundSystem.Instance;
         GameManager gameManager = GameManager.Instance;
-        Image soundImage = _soundButton.gameObject.GetComponent<Image>();
         Image vibrationImage = _vibrationButton.gameObject.GetComponent<Image>();
-
-        if (gameManager.sound == 1)
-        {
-            soundImage.sprite = _green;
-            soundSystem.MainMusicPlay();
-        }
-        else
-        {
-            soundImage.sprite = _red;
-            soundSystem.MainMusicStop();
-        }
 
         if (gameManager.vibration == 1)
             vibrationImage.sprite = _green;
@@ -109,7 +97,6 @@ public class Buttons : MonoSingleton<Buttons>
     {
         _settingButton.onClick.AddListener(SettingButton);
         _settingBackButton.onClick.AddListener(SettingBackButton);
-        _soundButton.onClick.AddListener(SoundButton);
         _vibrationButton.onClick.AddListener(VibrationButton);
         _winPrizeButton.onClick.AddListener(() => StartCoroutine(WinPrizeButton()));
         _winEmptyButton.onClick.AddListener(() => StartCoroutine(WinButton()));
@@ -173,25 +160,6 @@ public class Buttons : MonoSingleton<Buttons>
         _settingGame.SetActive(false);
         _settingButton.gameObject.SetActive(true);
         _globalPanel.SetActive(true);
-    }
-    private void SoundButton()
-    {
-        GameManager gameManager = GameManager.Instance;
-
-        if (gameManager.sound == 1)
-        {
-            _soundButton.gameObject.GetComponent<Image>().sprite = _red;
-            SoundSystem.Instance.MainMusicStop();
-            gameManager.sound = 0;
-        }
-        else
-        {
-            _soundButton.gameObject.GetComponent<Image>().sprite = _green;
-            SoundSystem.Instance.MainMusicPlay();
-            gameManager.sound = 1;
-        }
-
-        gameManager.SetSound();
     }
     private void VibrationButton()
     {
