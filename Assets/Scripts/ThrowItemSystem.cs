@@ -12,7 +12,7 @@ public class ThrowItemSystem : MonoSingleton<ThrowItemSystem>
     [SerializeField] float finishMoveSpeed;
 
 
-    public IEnumerator LaunchRandomItems(int itemCount, int tagCount, GameObject deathThrowCoinOP)
+    public IEnumerator LaunchRandomItems(int itemCount, int tagCount, GameObject deathThrowCoinOP, GameObject pushObjectStartPos)
     {
         bool tempIsMove = true;
         List<GameObject> tempItems = new List<GameObject>();
@@ -20,6 +20,7 @@ public class ThrowItemSystem : MonoSingleton<ThrowItemSystem>
         for (int i = 0; i < itemCount; i++)
         {
             GameObject obj = ObjectPool.Instance.GetPooledObject(tagCount + itemMainOPCount, deathThrowCoinOP.transform.position);
+            obj.transform.position = pushObjectStartPos.transform.position;
             obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0, itemThrowPower), 7, Random.Range(0, itemThrowPower));
             tempItems.Add(obj);
             yield return new WaitForSeconds(0.1f);

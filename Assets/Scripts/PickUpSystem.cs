@@ -8,6 +8,7 @@ public class PickUpSystem : MonoBehaviour
     [SerializeField] private int tagCount;
     [SerializeField] private int itemCount;
     [SerializeField] List<GameObject> Levels = new List<GameObject>();
+    [SerializeField] GameObject pushObjectStartPos;
     bool hitTime = false, systemReset = false;
 
     private void OnEnable()
@@ -61,7 +62,7 @@ public class PickUpSystem : MonoBehaviour
                 if (hitTime)
                 {
                     ChangeItemAppearance();
-                    StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject));
+                    StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject, pushObjectStartPos));
                     if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
                 }
             }

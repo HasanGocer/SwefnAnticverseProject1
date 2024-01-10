@@ -25,7 +25,7 @@ public class EnemyFightManager : MonoSingleton<EnemyFightManager>
 
     public IEnumerator DeathThrowCoin(int enemyCount, GameObject enemy)
     {
-        StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems((enemyCount + 1) * 5, deathThrowCoinOP, enemy));
+        StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems((enemyCount + 1) * 5, deathThrowCoinOP, enemy,enemy));
         yield return new WaitForSeconds(deathThrowCoinWaitTime);
     }
 }

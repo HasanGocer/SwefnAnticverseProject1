@@ -18,6 +18,7 @@ public class EnemyFightSystem : MonoBehaviour
     {
         isHit = false;
         isWalk = false;
+        enemyManager.SetIsLive(true);
     }
     private void Start()
     {
