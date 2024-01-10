@@ -64,12 +64,27 @@ public class AnimController : MonoBehaviour
     public void SetRunBool(bool tempBool)
     {
         runBool = tempBool;
-        PerformDualActionFinish();
+        if (hitBool)
+            PerformDualActionFinish();
+        else
+        {
+            AnimOn(run);
+            BoolSelectedOff();
+            AnimOff(death, idle, hit);
+        }
     }
     public void SetHitBool(bool tempBool)
     {
         hitBool = tempBool;
-        PerformDualActionFinish();
+        if (runBool)
+            PerformDualActionFinish();
+        else
+        {
+            AnimOn(hit);
+            BoolSelectedOff();
+            AnimOff(death, idle, run);
+        }
+
     }
 
     private void PerformDualActionFinish()
