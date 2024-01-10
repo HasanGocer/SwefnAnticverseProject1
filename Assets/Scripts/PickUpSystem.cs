@@ -9,7 +9,7 @@ public class PickUpSystem : MonoBehaviour
     [SerializeField] private int itemCount;
     [SerializeField] List<GameObject> Levels = new List<GameObject>();
     [SerializeField] GameObject pushObjectStartPos;
-    bool hitTime = false, systemReset = false;
+    bool systemReset = false;
 
     private void OnEnable()
     {
@@ -17,29 +17,16 @@ public class PickUpSystem : MonoBehaviour
         ChangeItemAppearance();
     }
 
-    private void _ColliderTouchStart()
+    public void HitFinish()
     {
-        hitTime = true;
-        StartCoroutine(HitTime());
-    }
-    private void _ColliderTouchStop()
-    {
-        hitTime = false;
-        CharacterManager.Instance.GetAnimController().CallIdleAnim();
-    }
-    private void Update()
-    {
-        if (hitTime)
-            if (itemCount == 0)
-                CharacterManager.Instance.GetAnimController().CallIdleAnim();
-    }
-    public void ColliderTouchStop()
-    {
-        _ColliderTouchStop();
-    }
-    public void ColliderTouchStart()
-    {
-        _ColliderTouchStart();
+        if (itemCount > 0)
+        {
+            TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
+            itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
+            StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject, pushObjectStartPos));
+            ChangeItemAppearance();
+            if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
+        }
     }
 
     IEnumerator ItemReloadIenum()
@@ -49,27 +36,6 @@ public class PickUpSystem : MonoBehaviour
         itemCount = ItemManager.Instance.GetItemCount(tagCount);
         ChangeItemAppearance();
         systemReset = false;
-    }
-    IEnumerator HitTime()
-    {
-        while (hitTime)
-            if (itemCount > 0)
-            {
-                CharacterManager.Instance.GetAnimController().CallHitAnim();
-                yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
-                TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
-                itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
-                CharacterManager.Instance.GetAnimController().SetHitBool(false);
-                if (hitTime)
-                {
-                    ChangeItemAppearance();
-                    StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject, pushObjectStartPos));
-                    if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
-                }
-            }
-            else
-                yield return null;
-        yield return null;
     }
     private void itemCountDown(int downCount)
     {

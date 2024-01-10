@@ -20,6 +20,13 @@ public class CharacterHitTime : MonoBehaviour
                 EnemyManager enemyManager = other.GetComponent<EnemyManager>();
                 enemyManager.DownEnemyHeallth(ItemData.Instance.field.characterAttack);
             }
+        for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
+            if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
+                if (IsHere(other.gameObject))
+                {
+                    PickUpSystem pickUpSystem = other.transform.parent.gameObject.GetComponent<PickUpSystem>();
+                    pickUpSystem.HitFinish();
+                }
     }
 
     private bool IsHere(GameObject tempObject)

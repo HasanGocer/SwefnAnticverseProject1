@@ -8,6 +8,8 @@ public class AnimController : MonoBehaviour
     private bool runBool = false, hitBool = false, idleBool = false, deathBool = false, hitWithRunBool = false;
     private string run = "Run", hit = "Hit", idle = "Idle", death = "Death", hitWithRun = "HitWithRun";
 
+
+    // major bri belirteþ atacaðýz o dolduracak.
     private void Start()
     {
         AnimOn(idle);
@@ -68,9 +70,10 @@ public class AnimController : MonoBehaviour
             PerformDualActionFinish();
         else
         {
-            AnimOn(run);
-            BoolSelectedOff();
-            AnimOff(death, idle, hit);
+            character.SetBool(hitWithRun, false);
+            AnimOn(idle);
+            AnimOff(death, hit, run);
+            print("HataRun");
         }
     }
     public void SetHitBool(bool tempBool)
@@ -80,9 +83,10 @@ public class AnimController : MonoBehaviour
             PerformDualActionFinish();
         else
         {
-            AnimOn(hit);
-            BoolSelectedOff();
-            AnimOff(death, idle, run);
+            character.SetBool(hitWithRun, false);
+            AnimOn(idle);
+            AnimOff(death, hit, run);
+            print("HataHit");
         }
 
     }
