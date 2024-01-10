@@ -9,17 +9,22 @@ public class CharacterFight : MonoBehaviour
 {
     [SerializeField] CharacterManager characterManager;
     [SerializeField] Collider hitCollider;
+    [SerializeField] EnemyManager enemyManager;
     bool isHit = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!isHit)
             if (other.CompareTag("Enemy"))
-                if (other.GetComponent<EnemyManager>().GetEnemyHealth() > 0)
+            {
+                enemyManager = other.GetComponent<EnemyManager>();
+                if (enemyManager.GetEnemyHealth() > 0)
                 {
                     isHit = true;
                     StartCoroutine(Hit());
                 }
+            }
+
     }
 
     public void SetHitBool(bool tempBool)
@@ -30,24 +35,30 @@ public class CharacterFight : MonoBehaviour
 
     public IEnumerator Hit()
     {
-        if (LiveCheck())
-            characterManager.GetAnimController().CallHitAnim();
-        yield return new WaitForSeconds(0.83f / ItemData.Instance.field.characterHitTime);
-        if (LiveCheck())
-            hitCollider.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.17f / ItemData.Instance.field.characterHitTime);
-        if (LiveCheck())
-            hitCollider.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.23f / ItemData.Instance.field.characterHitTime);
-        if (LiveCheck())
-            isHit = false;
-        if (LiveCheck())
-            if (CharacterManager.Instance.GetAnimController().GetRunAnimBool())
-                CharacterManager.Instance.GetAnimController().SetHitBool(false);
-            else
-                characterManager.GetAnimController().CallIdleAnim();
-        if (LiveCheck())
-            hitCollider.gameObject.SetActive(false);
+        while (isHit && enemyManager.GetEnemyHealth() > 0)
+        {
+            yield return null;
+            if (LiveCheck())
+                characterManager.GetAnimController().CallHitAnim();
+            yield return new WaitForSeconds(0.83f / ItemData.Instance.field.characterHitTime);
+            if (LiveCheck())
+                hitCollider.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.17f / ItemData.Instance.field.characterHitTime);
+            if (LiveCheck())
+                hitCollider.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1.23f / ItemData.Instance.field.characterHitTime);
+            if (LiveCheck())
+                if (CharacterManager.Instance.GetAnimController().GetRunAnimBool())
+                    CharacterManager.Instance.GetAnimController().SetHitBool(false);
+                else
+                    characterManager.GetAnimController().CallIdleAnim();
+            if (LiveCheck())
+                hitCollider.gameObject.SetActive(false);
+        }
+        if (enemyManager != null)
+            if (enemyManager.GetEnemyHealth() <= 0)
+                isHit = false;
+        yield return null;
     }
 
     private bool LiveCheck()

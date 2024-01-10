@@ -23,7 +23,6 @@ public class EnemyFightSystem : MonoBehaviour
     private void Start()
     {
         target = CharacterManager.Instance.GetCharacter().transform;
-
     }
 
     private void Update()

@@ -29,15 +29,9 @@ public class JoystickInput : MonoSingleton<JoystickInput>
         {
             if (!isIdle)
                 if (CharacterManager.Instance.GetAnimController().GetHitAnimBool())
-                {
-                    print(1);
                     CharacterManager.Instance.GetAnimController().SetRunBool(false);
-                }
                 else
-                {
-                    print(2);
                     CharacterManager.Instance.GetAnimController().CallIdleAnim();
-                }
             isIdle = true;
             rb.velocity = Vector3.zero;
         }
