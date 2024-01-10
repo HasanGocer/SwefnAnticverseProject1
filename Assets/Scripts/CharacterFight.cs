@@ -54,6 +54,8 @@ public class CharacterFight : MonoBehaviour
                     characterManager.GetAnimController().CallIdleAnim();
             if (LiveCheck())
                 hitCollider.gameObject.SetActive(false);
+            if (LiveCheck())
+                CharacterManager.Instance.GetAnimController().SetHitBool(false);
         }
         if (enemyManager != null)
             if (enemyManager.GetEnemyHealth() <= 0)

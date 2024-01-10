@@ -59,6 +59,7 @@ public class PickUpSystem : MonoBehaviour
                 yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
                 TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
                 itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
+                CharacterManager.Instance.GetAnimController().SetHitBool(false);
                 if (hitTime)
                 {
                     ChangeItemAppearance();
