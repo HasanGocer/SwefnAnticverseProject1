@@ -26,7 +26,7 @@ public class ItemData : MonoSingleton<ItemData>
     {
         for (int i = 0; i < field.HitTime.Count; i++)
         {
-            field.HitTime[i] = standart.HitTime[i] - (factor.HitTime[i] * constant.HitTime[i]);
+            field.HitTime[i] = standart.HitTime[i] + (factor.HitTime[i] * constant.HitTime[i]);
             fieldPrice.HitTime[i] = fieldPrice.HitTime[i] * factor.HitTime[i];
         }
 
@@ -54,7 +54,7 @@ public class ItemData : MonoSingleton<ItemData>
             if (factor.HitTime[i] > maxFactor.HitTime[i])
             {
                 factor.HitTime[i] = maxFactor.HitTime[i];
-                field.HitTime[i] = standart.HitTime[i] - (factor.HitTime[i] * constant.HitTime[i]);
+                field.HitTime[i] = standart.HitTime[i] + (factor.HitTime[i] * constant.HitTime[i]);
                 fieldPrice.HitTime[i] = fieldPrice.HitTime[i] / (factor.HitTime[i] - 1);
                 fieldPrice.HitTime[i] = fieldPrice.HitTime[i] * factor.HitTime[i];
             }
@@ -112,14 +112,14 @@ public class ItemData : MonoSingleton<ItemData>
     {
         factor.HitTime[tagCount]++;
 
-        field.HitTime[tagCount] = standart.HitTime[tagCount] - (factor.HitTime[tagCount] * constant.HitTime[tagCount]);
+        field.HitTime[tagCount] = standart.HitTime[tagCount] + (factor.HitTime[tagCount] * constant.HitTime[tagCount]);
         fieldPrice.HitTime[tagCount] = fieldPrice.HitTime[tagCount] / (factor.HitTime[tagCount] - 1);
         fieldPrice.HitTime[tagCount] = fieldPrice.HitTime[tagCount] * factor.HitTime[tagCount];
 
         if (factor.HitTime[tagCount] > maxFactor.HitTime[tagCount])
         {
             factor.HitTime[tagCount] = maxFactor.HitTime[tagCount];
-            field.HitTime[tagCount] = standart.HitTime[tagCount] - (factor.HitTime[tagCount] * constant.HitTime[tagCount]);
+            field.HitTime[tagCount] = standart.HitTime[tagCount] + (factor.HitTime[tagCount] * constant.HitTime[tagCount]);
             fieldPrice.HitTime[tagCount] = fieldPrice.HitTime[tagCount] / (factor.HitTime[tagCount] - 1);
             fieldPrice.HitTime[tagCount] = fieldPrice.HitTime[tagCount] * factor.HitTime[tagCount];
         }

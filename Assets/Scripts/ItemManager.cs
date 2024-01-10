@@ -32,7 +32,7 @@ public class ItemManager : MonoSingleton<ItemManager>
     }
     public void ItemCountTextPlacement()
     {
-        for (int i = 0; i < itemTextCount.Count; i++)
+        for (int i = 0; i < items.itemUICount.Count; i++)
             itemTextCount[i].text = items.itemUICount[i].ToString();
     }
     public void UPItemUICount(int tagCount, int itemCount)

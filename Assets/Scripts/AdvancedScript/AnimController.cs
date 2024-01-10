@@ -97,10 +97,15 @@ public class AnimController : MonoBehaviour
     {
         character.SetBool(hit, false);
         character.SetBool(run, false);
-        character.SetBool(hitWithRun, true);
+        AnimOn(hitWithRun);
     }
     private void AnimOn(string anim)
     {
+        if (anim == hit || anim == hitWithRun)
+            character.speed = ItemData.Instance.field.characterHitTime;
+        else
+            character.speed = 1;
+
         character.SetBool(anim, true);
     }
     private void AnimOff(string anim1, string anim2, string anim3)

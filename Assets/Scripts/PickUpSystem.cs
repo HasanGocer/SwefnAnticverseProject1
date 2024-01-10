@@ -51,19 +51,22 @@ public class PickUpSystem : MonoBehaviour
     }
     IEnumerator HitTime()
     {
-        while (hitTime && itemCount > 0)
-        {
-            CharacterManager.Instance.GetAnimController().CallHitAnim();
-            yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
-            TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
-            itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
-            if (hitTime)
+        while (hitTime)
+            if (itemCount > 0)
             {
-                ChangeItemAppearance();
-                StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject));
-                if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
+                CharacterManager.Instance.GetAnimController().CallHitAnim();
+                yield return new WaitForSeconds(ItemData.Instance.field.HitTime[tagCount]);
+                TagsManager.Instance.AddTagCount(tagCount, ItemData.Instance.field.itemHitCount[tagCount]);
+                itemCountDown(ItemData.Instance.field.itemHitCount[tagCount]);
+                if (hitTime)
+                {
+                    ChangeItemAppearance();
+                    StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems(ItemData.Instance.field.itemHitCount[tagCount], tagCount, gameObject));
+                    if (itemCount != ItemManager.Instance.GetItemCount(tagCount)) if (!systemReset) StartCoroutine(ItemReloadIenum());
+                }
             }
-        }
+            else
+                yield return null;
         yield return null;
     }
     private void itemCountDown(int downCount)

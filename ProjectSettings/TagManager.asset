@@ -8,6 +8,8 @@ TagManager:
   - Wood
   - HitCollider
   - Enemy
+  - Rock
+  - Fruit
   layers:
   - Default
   - TransparentFX

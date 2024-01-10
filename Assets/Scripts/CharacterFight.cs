@@ -32,13 +32,13 @@ public class CharacterFight : MonoBehaviour
     {
         if (LiveCheck())
             characterManager.GetAnimController().CallHitAnim();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.83f / ItemData.Instance.field.characterHitTime);
         if (LiveCheck())
             hitCollider.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.17f / ItemData.Instance.field.characterHitTime);
         if (LiveCheck())
             hitCollider.gameObject.SetActive(true);
-        yield return new WaitForSeconds(ItemData.Instance.field.characterHitTime - 0.9f);
+        yield return new WaitForSeconds(1.23f / ItemData.Instance.field.characterHitTime);
         if (LiveCheck())
             isHit = false;
         if (LiveCheck())

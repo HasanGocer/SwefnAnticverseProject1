@@ -63,12 +63,13 @@ public class EnemyFightSystem : MonoBehaviour
     {
         if (enemyManager.GetIsLive())
             enemyAnim.CallHitAnim();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.83f);
         if (enemyManager.GetIsLive())
             hitCollider.gameObject.SetActive(true);
-        yield return new WaitForSeconds(EnemyFightManager.Instance.GetEnemyAttackCountDown(enemyManager.GetEnemyCount()) - 1f);
+        yield return new WaitForSeconds(0.17f);
         if (enemyManager.GetIsLive())
             hitCollider.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1.23f);
         if (enemyManager.GetIsLive())
             isHit = false;
     }
