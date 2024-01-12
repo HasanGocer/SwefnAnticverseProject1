@@ -11,40 +11,34 @@ public class CharacterFight : MonoBehaviour
     [SerializeField] Collider hitCollider;
     [SerializeField] EnemyManager enemyManager;
     List<EnemyManager> enemys = new List<EnemyManager>();
-    List<GameObject> items = new List<GameObject>();
+    List<PickUpSystem> items = new List<PickUpSystem>();
     bool isHit = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isHit)
-        {
-            if (other.CompareTag("Enemy"))
-                if (IsHere(other.gameObject))
-                {
-                    enemyManager = other.GetComponent<EnemyManager>();
-                    if (enemyManager.GetEnemyHealth() > 0)
-                    {
-                        enemys.Add(enemyManager);
-                        isHit = true;
-                        StartCoroutine(Hit());
-                    }
-                }
-            for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
+        if (other.CompareTag("Enemy"))
+            if (IsHere(other.gameObject))
             {
-                print(1);
-                if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
+                enemyManager = other.GetComponent<EnemyManager>();
+                if (enemyManager.GetEnemyHealth() > 0)
                 {
-                    print(2);
-                    if (IsHere(other.gameObject))
-                    {
-                        print(3);
-                        items.Add(other.gameObject);
-                        isHit = true;
-                        StartCoroutine(Hit());
-                    }
+                    enemys.Add(enemyManager);
+                    StartCoroutine(Hit());
                 }
             }
-
+        for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
+        {
+            print(1);
+            if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
+            {
+                print(2);
+                if (IsHere(other.gameObject))
+                {
+                    print(3);
+                    items.Add(other.transform.parent.GetComponent<PickUpSystem>());
+                    StartCoroutine(Hit());
+                }
+            }
         }
     }
 
@@ -53,11 +47,25 @@ public class CharacterFight : MonoBehaviour
         if (other.CompareTag("Enemy"))
             if (!IsHere(other.gameObject))
                 enemys.RemoveAt(enemys.IndexOf(other.GetComponent<EnemyManager>()));
+        for (int i1 = 0; i1 < items.Count; i1++)
+        {
+            print(1);
+            for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
+            {
+                print(2);
+                if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
+                {
+                    print(3);
+                    if (!IsHere(other.gameObject))
+                    {
+                        print(4);
+                        items.RemoveAt(items.IndexOf(other.transform.parent.GetComponent<PickUpSystem>()));
 
-        for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
-            if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
-                if (!IsHere(other.gameObject))
-                    items.RemoveAt(items.IndexOf(other.gameObject));
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -70,26 +78,21 @@ public class CharacterFight : MonoBehaviour
     private IEnumerator Hit()
     {
         yield return null;
-        print(31);
-        while (enemys.Count > 0 || items.Count > 0)
+        while ((enemys.Count > 0 || items.Count > 0) && HitChecked())
         {
             yield return null;
-            if (isHit)
+            if (!isHit)
             {
-                print(4);
+                isHit = true;
                 yield return null;
                 if (LiveCheck())
                     characterManager.GetAnimController().CallHitAnim();
-                print(5);
                 yield return new WaitForSeconds(0.83f / ItemData.Instance.field.characterHitTime);
-                print(6);
                 if (LiveCheck())
                     hitCollider.gameObject.SetActive(true);
-                print(7);
                 yield return new WaitForSeconds(0.17f / ItemData.Instance.field.characterHitTime);
                 if (LiveCheck())
                     hitCollider.gameObject.SetActive(false);
-                print(8);
                 yield return new WaitForSeconds(1.23f / ItemData.Instance.field.characterHitTime);
                 if (LiveCheck())
                     if (CharacterManager.Instance.GetAnimController().GetRunAnimBool())
@@ -97,6 +100,7 @@ public class CharacterFight : MonoBehaviour
                     else
                         characterManager.GetAnimController().CallIdleAnim();
                 LiveEnemyCheck();
+                isHit = false;
             }
         }
 
@@ -106,6 +110,17 @@ public class CharacterFight : MonoBehaviour
     {
         if (characterManager.GetCharacterHealth() > 0) return true;
         else return false;
+    }
+    private bool HitChecked()
+    {
+        bool tempBool = false;
+
+        for (int i = 0; i < items.Count; i++)
+            if (items[i].GetIsOpen()) tempBool = true;
+
+        for (int i = 0; i < enemys.Count; i++)
+            if (enemys[i].GetEnemyHealth() <= 0) tempBool = true;
+        return tempBool;
     }
     private void LiveEnemyCheck()
     {
@@ -120,7 +135,9 @@ public class CharacterFight : MonoBehaviour
         bool tempBool = true;
 
         for (int i = 0; i < enemys.Count; i++)
-            if (enemys[i] == tempObject) tempBool = false;
+            if (enemys[i].gameObject == tempObject) tempBool = false;
+        for (int i = 0; i < items.Count; i++)
+            if (items[i].gameObject == tempObject) tempBool = false;
         return tempBool;
     }
 }

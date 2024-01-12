@@ -9,13 +9,20 @@ public class PickUpSystem : MonoBehaviour
     [SerializeField] private int itemCount;
     [SerializeField] List<GameObject> Levels = new List<GameObject>();
     [SerializeField] GameObject pushObjectStartPos;
-    bool systemReset = false;
+    bool systemReset = false, isOpen = false;
 
     private void OnEnable()
     {
         itemCount = ItemManager.Instance.GetItemCount(tagCount);
         ChangeItemAppearance();
     }
+    private void Update()
+    {
+        if (itemCount > 0) isOpen = true;
+        else isOpen = false;
+    }
+
+    public bool GetIsOpen() { return isOpen; }
 
     public void HitFinish()
     {
