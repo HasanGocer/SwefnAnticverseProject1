@@ -28,13 +28,10 @@ public class CharacterFight : MonoBehaviour
             }
         for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
         {
-            print(1);
             if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
             {
-                print(2);
                 if (IsHere(other.gameObject))
                 {
-                    print(3);
                     items.Add(other.transform.parent.GetComponent<PickUpSystem>());
                     StartCoroutine(Hit());
                 }
@@ -67,7 +64,6 @@ public class CharacterFight : MonoBehaviour
         }
 
     }
-
 
     public void SetHitBool(bool tempBool)
     {
@@ -119,7 +115,7 @@ public class CharacterFight : MonoBehaviour
             if (items[i].GetIsOpen()) tempBool = true;
 
         for (int i = 0; i < enemys.Count; i++)
-            if (enemys[i].GetEnemyHealth() <= 0) tempBool = true;
+            if (enemys[i].GetEnemyHealth() > 0) tempBool = true;
         return tempBool;
     }
     private void LiveEnemyCheck()

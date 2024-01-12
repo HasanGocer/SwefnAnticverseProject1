@@ -51,8 +51,8 @@ public class PickUpSystem : MonoBehaviour
 
     private void ChangeItemAppearance()
     {
-        int levelCount = (int)((float)((float)itemCount / (float)ItemManager.Instance.GetItemCount(tagCount)) * (float)Levels.Count) - 1;
-        if (levelCount < 0) levelCount = 0;
+        int levelCount = (int)((float)((float)itemCount / (float)ItemManager.Instance.GetItemCount(tagCount)) * (float)Levels.Count);
+        if (levelCount == Levels.Count) levelCount = Levels.Count - 1;
         LevelOff();
         Levels[levelCount].SetActive(true);
     }

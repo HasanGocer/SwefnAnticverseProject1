@@ -10822,6 +10822,7 @@ MonoBehaviour:
   enemyHealthes: 06000000
   enemyAttackPower: 03000000
   enemyAttackCountDown: 02000000
+  enemyReHealthCountdownContdown: 10
   minViewDistance: 10
   minHitDistance: 1
   walkSpeed: 2
@@ -16588,6 +16589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3105744096695795297}
+  characterReHealthCountdownContdown: 5
   health: 0
   animController: {fileID: 3105744096695795301}
   characterFight: {fileID: 1698169141}

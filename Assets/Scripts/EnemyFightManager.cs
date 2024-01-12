@@ -7,12 +7,14 @@ public class EnemyFightManager : MonoSingleton<EnemyFightManager>
     [SerializeField] List<int> enemyHealthes = new List<int>();
     [SerializeField] List<int> enemyAttackPower = new List<int>();
     [SerializeField] List<int> enemyAttackCountDown = new List<int>();
+    [SerializeField] int enemyReHealthCountdownContdown;
     [SerializeField] int minViewDistance;
     [SerializeField] int minHitDistance;
     [SerializeField] float walkSpeed;
     [SerializeField] int deathTime;
     [SerializeField] int deathThrowCoinOP;
     [SerializeField] float deathThrowCoinWaitTime;
+    public int GetEnemyReHealthCountdownContdown() { return enemyReHealthCountdownContdown; }
     public int GetEnemyHealth(int enemyCount) { return enemyHealthes[enemyCount]; }
     public int GetEnemyAttackPower(int enemyCount) { return enemyAttackPower[enemyCount]; }
     public int GetEnemyAttackCountDown(int enemyCount) { return enemyAttackCountDown[enemyCount]; }
@@ -25,7 +27,7 @@ public class EnemyFightManager : MonoSingleton<EnemyFightManager>
 
     public IEnumerator DeathThrowCoin(int enemyCount, GameObject enemy)
     {
-        StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems((enemyCount + 1) * 5, deathThrowCoinOP, enemy,enemy));
+        StartCoroutine(ThrowItemSystem.Instance.LaunchRandomItems((enemyCount + 1) * 5, deathThrowCoinOP, enemy, enemy));
         yield return new WaitForSeconds(deathThrowCoinWaitTime);
     }
 }

@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    Coroutine healthCorotine;
     [SerializeField] EnemyFightSystem enemyFightSystem;
-    [SerializeField] EnemyManager enemyManager;
     [SerializeField] EnemySpawnerSystem enemySpawnerSystem;
     [SerializeField] EnemyBar enemyBar;
     [SerializeField] int health;
     [SerializeField] int enemyCount;
-    [SerializeField] bool isLive = true;
+    [SerializeField] bool isLive = true, systemReset = false;
 
     private void OnEnable()
     {
@@ -21,12 +21,20 @@ public class EnemyManager : MonoBehaviour
     public bool GetIsLive() { return isLive; }
     public void SetIsLive(bool tempIsLive) { isLive = tempIsLive; }
     public int GetEnemyHealth() { return health; }
+    public void EnemyHealthReHealth() { health = EnemyFightManager.Instance.GetEnemyHealth(enemyCount); }
     public int GetEnemyCount() { return enemyCount; }
     public void SetEnemySpawnerSystem(EnemySpawnerSystem tempEnemySpawnerSystem) { enemySpawnerSystem = tempEnemySpawnerSystem; }
     public void DownEnemyHeallth(int tempHealth)
     {
         health -= tempHealth;
         CheckHealth();
+        if (!systemReset)
+            healthCorotine = StartCoroutine(HealthUp());
+        else
+        {
+            StopCoroutine(healthCorotine);
+            healthCorotine = StartCoroutine(HealthUp());
+        }
     }
 
     private void CheckHealth()
@@ -34,7 +42,7 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
 
-            enemyManager.SetIsLive(false);
+            SetIsLive(false);
             enemyFightSystem.GetEnemyAnim().CallDeathAnim();
             StartCoroutine(EnemyFightManager.Instance.DeathThrowCoin(enemyCount, gameObject));
             StartCoroutine(DeathTime());
@@ -42,7 +50,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
+    IEnumerator HealthUp()
+    {
+        systemReset = true;
+        yield return new WaitForSeconds(EnemyFightManager.Instance.GetEnemyReHealthCountdownContdown());
+        EnemyHealthReHealth();
+        systemReset = false;
+    }
 
     IEnumerator DeathTime()
     {
