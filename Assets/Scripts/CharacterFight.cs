@@ -44,24 +44,12 @@ public class CharacterFight : MonoBehaviour
         if (other.CompareTag("Enemy"))
             if (!IsHere(other.gameObject))
                 enemys.RemoveAt(enemys.IndexOf(other.GetComponent<EnemyManager>()));
-        for (int i1 = 0; i1 < items.Count; i1++)
-        {
-            print(1);
-            for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
-            {
-                print(2);
-                if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
-                {
-                    print(3);
-                    if (!IsHere(other.gameObject))
-                    {
-                        print(4);
-                        items.RemoveAt(items.IndexOf(other.transform.parent.GetComponent<PickUpSystem>()));
 
-                    }
-                }
-            }
-        }
+        for (int i1 = 0; i1 < items.Count; i1++)
+            for (int i = 0; i < TagsManager.Instance.GetTagCount(); i++)
+                if (other.CompareTag(TagsManager.Instance.GetTagName(i)))
+                    if (!IsHere(other.transform.parent.gameObject))
+                        items.RemoveAt(items.IndexOf(other.transform.parent.GetComponent<PickUpSystem>()));
 
     }
 
