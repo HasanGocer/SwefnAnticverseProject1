@@ -474,7 +474,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.2}
+  m_SizeDelta: {x: 0.85, y: 0.126}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3789719804664332916
 CanvasRenderer:
@@ -497,21 +497,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.9623866, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 80f90d09a10f76b488ff9b2451c10d6f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b25baecb76c3894e99d11c4b8a757d8, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2749380372959774781
@@ -836,12 +836,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyFightSystem: {fileID: 3851214019435446794}
-  enemyManager: {fileID: 6393981352370039973}
   enemySpawnerSystem: {fileID: 0}
   enemyBar: {fileID: 0}
   health: 0
   enemyCount: 0
   isLive: 1
+  systemReset: 0
 --- !u!54 &1149673453983071959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1143,7 +1143,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.2}
+  m_SizeDelta: {x: 0.876, y: 0.156}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3757077532998645235
 CanvasRenderer:
@@ -1173,7 +1173,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f85044a2e43fe39479caec016bc39948, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77eff9933f7d2be409d414b502d97190, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
