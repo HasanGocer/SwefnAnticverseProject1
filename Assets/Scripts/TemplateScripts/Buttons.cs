@@ -26,9 +26,13 @@ public class Buttons : MonoSingleton<Buttons>
     [SerializeField] private Button _settingButton;
     [SerializeField] private GameObject _settingGame;
 
-    [SerializeField] private Sprite _red, _green;
     [SerializeField] private Button _settingBackButton;
+    [SerializeField] private Button _soundButton;
+    [SerializeField] Image _soundOnImage, _soundOffImage;
+    [SerializeField] private Button _musicButton;
+    [SerializeField] Image _musicOnImage, _musicOffImage;
     [SerializeField] private Button _vibrationButton;
+    [SerializeField] Image _vibrationOnImage, _vibrationOffImage;
 
     [Header("Finish_Panel")]
     [Space(10)]
@@ -81,6 +85,7 @@ public class Buttons : MonoSingleton<Buttons>
 
         CharacterManager.Instance.StartCharacterManager();
         ItemManager.Instance.ItemCountTextPlacement();
+        VillageManager.Instance.CharacterStatStart();
         SoundSystem.Instance.MainMusicPlay();
     }
     public IEnumerator NoThanxOnActive()
@@ -97,20 +102,49 @@ public class Buttons : MonoSingleton<Buttons>
 
     private void SettingPlacement()
     {
-        SoundSystem soundSystem = SoundSystem.Instance;
         GameManager gameManager = GameManager.Instance;
-        Image vibrationImage = _vibrationButton.gameObject.GetComponent<Image>();
 
         if (gameManager.vibration == 1)
-            vibrationImage.sprite = _green;
+        {
+            _vibrationOnImage.gameObject.SetActive(true);
+            _vibrationOffImage.gameObject.SetActive(false);
+        }
         else
-            vibrationImage.sprite = _red;
+        {
+            _vibrationOffImage.gameObject.SetActive(true);
+            _vibrationOnImage.gameObject.SetActive(false);
+        }
+
+        if (gameManager.sound == 1)
+        {
+            _soundOnImage.gameObject.SetActive(true);
+            _soundOffImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            _soundOffImage.gameObject.SetActive(true);
+            _soundOnImage.gameObject.SetActive(false);
+        }
+
+        if (gameManager.music == 1)
+        {
+            _musicOnImage.gameObject.SetActive(true);
+            _musicOffImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            _musicOffImage.gameObject.SetActive(true);
+            _musicOnImage.gameObject.SetActive(false);
+        }
+
     }
     private void ButtonPlacement()
     {
         _settingButton.onClick.AddListener(SettingButton);
         _settingBackButton.onClick.AddListener(SettingBackButton);
         _vibrationButton.onClick.AddListener(VibrationButton);
+        _musicButton.onClick.AddListener(MusicButton);
+        _soundButton.onClick.AddListener(SoundButton);
         _winPrizeButton.onClick.AddListener(() => StartCoroutine(WinPrizeButton()));
         _winEmptyButton.onClick.AddListener(() => StartCoroutine(WinButton()));
         _failButton.onClick.AddListener(() => StartCoroutine(FailButton()));
@@ -180,17 +214,62 @@ public class Buttons : MonoSingleton<Buttons>
 
         if (gameManager.vibration == 1)
         {
-            _vibrationButton.gameObject.GetComponent<Image>().sprite = _red;
+            _vibrationOnImage.gameObject.SetActive(false);
+            _vibrationOffImage.gameObject.SetActive(true);
             gameManager.vibration = 0;
         }
         else
         {
-            _vibrationButton.gameObject.GetComponent<Image>().sprite = _green;
+            _vibrationOffImage.gameObject.SetActive(false);
+            _vibrationOnImage.gameObject.SetActive(true);
             gameManager.vibration = 1;
         }
 
         gameManager.SetVibration();
     }
+
+    private void SoundButton()
+    {
+        GameManager gameManager = GameManager.Instance;
+
+        if (gameManager.sound == 1)
+        {
+            _soundOnImage.gameObject.SetActive(false);
+            _soundOffImage.gameObject.SetActive(true);
+            gameManager.sound = 0;
+        }
+        else
+        {
+            _soundOffImage.gameObject.SetActive(false);
+            _soundOnImage.gameObject.SetActive(true);
+            gameManager.sound = 1;
+        }
+
+        SoundSystem.Instance.SetSoundVolume();
+        gameManager.SetSound();
+    }
+
+    private void MusicButton()
+    {
+        GameManager gameManager = GameManager.Instance;
+
+        if (gameManager.music == 1)
+        {
+            _musicOnImage.gameObject.SetActive(false);
+            _musicOffImage.gameObject.SetActive(true);
+            gameManager.music = 0;
+        }
+        else
+        {
+            _musicOffImage.gameObject.SetActive(false);
+            _musicOnImage.gameObject.SetActive(true);
+            gameManager.music = 1;
+        }
+
+        SoundSystem.Instance.SetMusicVolume();
+        gameManager.SetMusic();
+    }
+
     public void NotBossFinal()
     {
         _winPrizeButton.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = "Next";

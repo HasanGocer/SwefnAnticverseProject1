@@ -8,7 +8,7 @@ public class ThrowItemSystem : MonoSingleton<ThrowItemSystem>
     [SerializeField] int itemThrowTime;
     [SerializeField] int itemColligateTime;
     [SerializeField] float itemThrowPower;
-    [SerializeField] GameObject finishPositionItem;
+    [SerializeField] List<GameObject> finishPositionItem = new List<GameObject>();
     [SerializeField] float finishMoveSpeed;
 
 
@@ -21,17 +21,16 @@ public class ThrowItemSystem : MonoSingleton<ThrowItemSystem>
         {
             GameObject obj = ObjectPool.Instance.GetPooledObject(tagCount + itemMainOPCount, deathThrowCoinOP.transform.position);
             obj.transform.position = pushObjectStartPos.transform.position;
-            obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0, itemThrowPower), 7, Random.Range(0, itemThrowPower));
+            obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0, itemThrowPower), 5, Random.Range(0, itemThrowPower));
             tempItems.Add(obj);
             yield return new WaitForSeconds(0.1f);
         }
 
         yield return new WaitForSeconds(itemThrowTime);
-
         for (int i = 0; i < itemCount; i++)
         {
             GameObject obj = tempItems[i];
-            MoveMechanics.Instance.MoveLerp(obj, finishPositionItem, finishMoveSpeed, ref tempIsMove, () => { ObjectPool.Instance.AddObject(tagCount + itemMainOPCount, obj); });
+            MoveMechanics.Instance.MoveLerp(obj, finishPositionItem[tagCount], finishMoveSpeed, ref tempIsMove, () => { ObjectPool.Instance.AddObject(tagCount + itemMainOPCount, obj); });
             if (tagCount != EnemyFightManager.Instance.GetDeathThrowCoinOP())
                 ItemManager.Instance.UPItemUICount(tagCount, 1);
             else

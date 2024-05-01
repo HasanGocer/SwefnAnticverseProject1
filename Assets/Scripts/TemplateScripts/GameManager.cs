@@ -23,6 +23,8 @@ public class GameManager : MonoSingleton<GameManager>
     public int level;
     public int money;
     public int vibration;
+    public int sound;
+    public int music;
 
     public void Awake()
     {
@@ -47,6 +49,16 @@ public class GameManager : MonoSingleton<GameManager>
             vibration = PlayerPrefs.GetInt("vibration");
         else
             PlayerPrefs.SetInt("vibration", vibration);
+
+        if (PlayerPrefs.HasKey("sound"))
+            vibration = PlayerPrefs.GetInt("sound");
+        else
+            PlayerPrefs.SetInt("sound", sound);
+
+        if (PlayerPrefs.HasKey("music"))
+            vibration = PlayerPrefs.GetInt("music");
+        else
+            PlayerPrefs.SetInt("music", music);
 
         if (PlayerPrefs.HasKey("first"))
         {
@@ -101,5 +113,14 @@ public class GameManager : MonoSingleton<GameManager>
     public void SetVibration()
     {
         PlayerPrefs.SetInt("vibration", vibration);
+    }
+
+    public void SetSound()
+    {
+        PlayerPrefs.SetInt("sound", sound);
+    }
+    public void SetMusic()
+    {
+        PlayerPrefs.SetInt("music", music);
     }
 }
